@@ -71,9 +71,12 @@ module.exports = {
         ObjectSubType = ObjectSubType.charAt(0).toUpperCase() + ObjectSubType.slice(1);
         name += ObjectSubType;
         //decrease object variant to 5 characters if it is longer
-        ObjectVariant = ObjectVariant.charAt(0).toUpperCase() + ObjectVariant.slice(1);
 
-        name += ObjectVariant;
+        if (ObjectVariant) {
+            ObjectVariant = ObjectVariant.charAt(0).toUpperCase() + ObjectVariant.slice(1);
+            name += ObjectVariant;
+        }
+        
         //add variant number if it is present
         if (ObjectVariantNumber) {
             name += "V" + ObjectVariantNumber;
