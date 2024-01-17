@@ -50,11 +50,11 @@ module.exports = {
         let ObjectVariantNumber = interaction.options.getNumber('object-variantnumber');
         let name = "";
         if (PastOrPresent === "level_past") {
-            name += "Past";
+            name += "Past_";
         } else if (PastOrPresent === "level_present") {
-            name += "Presn";
+            name += "Present_";
         } else if (PastOrPresent === "level_both") {
-            name += "Both";
+            name += "Both_";
         }
         //decrease object type to 5 characters if it is longer
         if (ObjectType.length > 5) {
@@ -83,6 +83,7 @@ module.exports = {
         let LowName = name + "_Low";
 
         let fieildArry = [
+            {name : "Object Name", value : name, inline : false},
             {name : "High Poly Name", value : HighName, inline : false},
             {name : "Low Poly Name", value : LowName, inline : false}
         ];
@@ -90,7 +91,7 @@ module.exports = {
         .setTitle("Object Name")
         .setDescription("The name of the object is: ")
         .addFields(fieildArry)
-        .setColor("#FF0000")
+        .setColor("#FF0000");
         await interaction.reply({ embeds: [embed] });
         // await interaction.reply(name);
 
