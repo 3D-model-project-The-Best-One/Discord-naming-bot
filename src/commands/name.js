@@ -25,6 +25,34 @@ module.exports = {
         option.setName('object-variant')
             .setDescription('What variant of object is it (straight, corner, etc)')
             .setRequired(false))
+    .addStringOption(option =>
+        option.setName('object-variant-option')
+            .setDescription('What variant of object is it (straight, corner, etc)')
+            .addChoices(
+                    { name: 'Straight', value: 'variant_straight' },
+                    { name: 'Corner', value: 'variant_corner' },
+                    { name: 'T', value: 'variant_t' },
+                    { name: 'Cross', value: 'variant_cross' },
+                    { name: 'End', value: 'variant_end' },
+                    { name: 'End Corner', value: 'variant_endcorner' },
+            )
+            .setRequired(false))
+    .addStringOption(option =>
+        option.setName('object-variantSide')
+            .setDescription('If the object has is a variant of a side object (left, right, etc)')
+            .addChoices(
+                    { name: 'Left', value: 'variant_left' },
+                    { name: 'Right', value: 'variant_right' },
+                    { name: 'Front', value: 'variant_front' },
+                    { name: 'Back', value: 'variant_back' },
+                    { name: 'Top', value: 'variant_top' },
+                    { name: 'Bottom', value: 'variant_bottom' },
+                    { name: 'Left Front', value: 'variant_leftfront' },
+                    { name: 'Right Front', value: 'variant_rightfront' },
+                    { name: 'Left Back', value: 'variant_leftback' },
+                    { name: 'Right Back', value: 'variant_rightback' },
+            )
+            .setRequired(false))
     .addNumberOption(option =>
         option.setName('object-variantnumber')
             .setDescription('What variant number of object is it (1, 2, 3, etc)')
@@ -47,6 +75,8 @@ module.exports = {
         let ObjectType = interaction.options.getString('object-type');
         let ObjectSubType = interaction.options.getString('object-subtype');
         let ObjectVariant = interaction.options.getString('object-variant');
+        let ObjectVariantOption = interaction.options.getString('object-variant-option');
+        let ObjectVariantSide = interaction.options.getString('object-variantSide');
         let ObjectVariantNumber = interaction.options.getNumber('object-variantnumber');
         let name = "";
         if (PastOrPresent === "level_past") {
@@ -75,11 +105,17 @@ module.exports = {
         name += ObjectSubType;
         //decrease object variant to 5 characters if it is longer
 
-        if (ObjectVariant) {
+        if (ObjectVariant || ObjectVariantOption) {
+            if (ObjectVariantOption) {
+                ObjectVariant = ObjectVariantOption;
+            }
             ObjectVariant = ObjectVariant.charAt(0).toUpperCase() + ObjectVariant.slice(1);
-            name += ObjectVariant;
+            name += "_" + ObjectVariant;
         }
-
+        if (ObjectVariantSide) {
+            ObjectVariantSide = ObjectVariantSide.charAt(0).toUpperCase() + ObjectVariantSide.slice(1);
+            name += "_" + ObjectVariantSide;
+        }
         //add variant number if it is present
         if (ObjectVariantNumber) {
             name += "V" + ObjectVariantNumber;
